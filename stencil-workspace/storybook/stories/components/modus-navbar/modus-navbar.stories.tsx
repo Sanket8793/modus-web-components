@@ -4,6 +4,15 @@ import { html } from 'lit-html';
 
 export default {
   title: 'Components/Navbar',
+  argTypes: {
+    items: {
+      name: 'items',
+      description: 'Set object according to the ModusNavbarItem interface in the items array',
+      table: {
+        type: { summary: 'object' }
+      },
+    },
+  },
   parameters: {
     docs: {
       inlineStories: true,
@@ -13,13 +22,14 @@ export default {
       isToolshown: true,
     },
     controls: {
-      disabled: true,
+      expanded: true,
+      sort: 'alpha',
     },
     viewMode: 'docs',
   },
 };
 
-const Template = () => html`
+const Template = ({ items }) => html`
   <modus-navbar
     id="working"
     show-apps-menu
@@ -29,11 +39,16 @@ const Template = () => html`
     <div slot="main" style="height:300px;">Render your own main menu.</div>
     <div slot="notifications">Render your own notifications.</div>
   </modus-navbar>
-  ${setNavbar(true, '#working')}
+  ${setNavbar(true, '#working', '', items)}
 `;
 export const Default = Template.bind({});
+Default.args = {
+  items: [
+    { id: 'main', icon: 'add' }
+  ]
+};
 
-const FailedToLoadAvatarTemplate = () => html`
+const FailedToLoadAvatarTemplate = ({ items }) => html`
   <modus-navbar
     id="broken"
     show-apps-menu
@@ -43,11 +58,14 @@ const FailedToLoadAvatarTemplate = () => html`
     <div slot="main" style="height:300px;">Render your own main menu.</div>
     <div slot="notifications">Render your own notifications.</div>
   </modus-navbar>
-  ${setNavbar(false, '#broken')}
+  ${setNavbar(false, '#broken', '', items)}
 `;
 export const FailedAvatar = FailedToLoadAvatarTemplate.bind({});
+FailedAvatar.args = {
+  items: []
+};
 
-const BlueTemplate = () => html`
+const BlueTemplate = ({ items }) => html`
   <modus-navbar
     id="blue-theme"
     show-apps-menu
@@ -61,12 +79,16 @@ const BlueTemplate = () => html`
   ${setNavbar(
     false,
     '#blue-theme',
-    'https://modus-bootstrap.trimble.com/img/trimble-logo-rev.svg'
+    'https://modus-bootstrap.trimble.com/img/trimble-logo-rev.svg',
+     items
   )}
 `;
 export const BlueNavbar = BlueTemplate.bind({});
+BlueNavbar.args = {
+  items: []
+};
 
-const setNavbar = (workingAvatar: boolean, id: string, logoUrl = '') => {
+const setNavbar = (workingAvatar: boolean, id: string, logoUrl = '', items = []) => {
   const tag = document.createElement('script');
   const avatarUrl = workingAvatar
     ? 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/0e738c17-7f3c-422e-8225-f8c782b08626/d9pordj-43d4aa59-54b0-46a1-a568-e36dd691cf27.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzBlNzM4YzE3LTdmM2MtNDIyZS04MjI1LWY4Yzc4MmIwODYyNlwvZDlwb3Jkai00M2Q0YWE1OS01NGIwLTQ2YTEtYTU2OC1lMzZkZDY5MWNmMjcucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.xvDk9KFIUAx0yAG3BPamDfRqmWUX6zwR4WVW40GjsoY'
@@ -85,6 +107,7 @@ const setNavbar = (workingAvatar: boolean, id: string, logoUrl = '') => {
           initials: 'MU',
           username: 'Modus User',
         };
+        document.querySelector('${id}').items = ${JSON.stringify(items)};
   `;
 
   return tag;

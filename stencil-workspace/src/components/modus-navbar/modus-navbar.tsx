@@ -16,6 +16,8 @@ import { IconSearch } from '../icons/icon-search';
 import { ModusNavbarApp } from './apps-menu/modus-navbar-apps-menu';
 import { IconHelp } from '../icons/icon-help';
 import { ModusNavbarProfileMenuLink } from './profile-menu/modus-navbar-profile-menu';
+import { IconMap } from '../icons/IconMap';
+import { ModusNavbarItem } from './item-menu/modus-navbar-item-menu';
 
 /**
  * @slot main - Renders custom main menu content
@@ -32,6 +34,9 @@ export class ModusNavbar {
 
   /** (optional) The apps to render in the apps menu. */
   @Prop() apps: ModusNavbarApp[];
+
+  /** (optional) The items to render in the Navbar. */
+  @Prop() items: ModusNavbarItem[];
 
   /** (required) Product logo options. */
   @Prop() productLogoOptions: { height?: string; url: string };
@@ -87,6 +92,9 @@ export class ModusNavbar {
   /** An event that fires when the help link opens. */
   @Event() helpOpen: EventEmitter<void>;
 
+  /** An event that fires when the item menu opens. */
+  @Event() itemMenuOpen: EventEmitter<string>;
+
   /** An event that fires on main menu click. */
   @Event() mainMenuClick: EventEmitter<KeyboardEvent | MouseEvent>;
 
@@ -111,6 +119,7 @@ export class ModusNavbar {
   }
 
   @State() appsMenuVisible: boolean;
+  @State() itemMenuVisible: boolean;
   @State() mainMenuVisible: boolean;
   @State() notificationsMenuVisible: boolean;
   @State() profileMenuVisible: boolean;
@@ -159,6 +168,30 @@ export class ModusNavbar {
       this.slots?.length !== slotNames.length ||
       this.slots?.filter((s) => !slotNames.includes(s)).length;
     if (isUpdated) this.slots = [...slotNames];
+  }
+
+  itemMenuClickHandler(item: ModusNavbarItem, event): void {
+    event.preventDefault();
+    this.itemMenuToggle(item);
+  }
+
+  itemMenuKeydownHandler(item: ModusNavbarItem, event: KeyboardEvent): void {
+    if (event.code !== 'Enter') {
+      return;
+    }
+    this.itemMenuToggle(item);
+  }
+
+  itemMenuToggle(item: ModusNavbarItem): void {
+    this.itemMenuVisible = false;
+    if (item.menu == 'pop-out') {
+      item.menu = undefined;
+    } else {
+      this.hideMenus();
+      item.menu = 'pop-out';
+      this.itemMenuVisible = true;
+      this.itemMenuOpen.emit(item.id);
+    }
   }
 
   appsMenuClickHandler(event: MouseEvent): void {
@@ -258,6 +291,7 @@ export class ModusNavbar {
   }
 
   private hideMenus(): void {
+    this.items?.forEach(item => item.menu = undefined);
     this.appsMenuVisible = false;
     this.mainMenuVisible = false;
     this.notificationsMenuVisible = false;
@@ -316,6 +350,28 @@ export class ModusNavbar {
               </span>
             </div>
           )}
+          {(this.items?.map((i) =>
+          (
+            <div class="navbar-button">
+              <span class="navbar-button-icon"
+                onKeyDown={(event) => this.itemMenuKeydownHandler(i, event)}
+                tabIndex={0}>
+                <modus-tooltip text={i.tooltip} position="bottom">
+                  <IconMap
+                    icon={i.icon}
+                    size="24"
+                    onClick={(event) => this.itemMenuClickHandler(i, event)}
+                    pressed={i.menu === 'pop-out'}
+                  />
+                </modus-tooltip>
+              </span>
+              {i.menu === 'pop-out' && (
+                <modus-navbar-item-menu reverse={this.reverse}>
+                  <slot name={i.id}></slot>
+                </modus-navbar-item-menu>
+              )}
+            </div>
+          )))}
           {this.showNotifications && (
             <div class="navbar-button" data-test-id="notifications-menu">
               <span
