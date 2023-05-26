@@ -772,6 +772,10 @@ export namespace Components {
          */
         "label": string;
         /**
+          * The select's dropdown menu size.
+         */
+        "menuSize": 'small' | 'medium' | 'large';
+        /**
           * The options for the dropdown list.
          */
         "options": unknown[];
@@ -2482,6 +2486,10 @@ declare namespace LocalJSX {
           * (optional) The input label.
          */
         "label"?: string;
+        /**
+          * The select's dropdown menu size.
+         */
+        "menuSize"?: 'small' | 'medium' | 'large';
         /**
           * An event that fires on input value change.
          */

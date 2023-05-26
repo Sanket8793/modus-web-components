@@ -159,14 +159,10 @@ export class ModusNavbar {
       };
     });
 
-    const slotElements = this.element.querySelectorAll(
-      '[slot]'
-    ) as unknown as HTMLSlotElement[];
+    const slotElements = this.element.querySelectorAll('[slot]') as unknown as HTMLSlotElement[];
     const slotNames = Array.from(slotElements).map((s) => s.slot) || [];
 
-    const isUpdated =
-      this.slots?.length !== slotNames.length ||
-      this.slots?.filter((s) => !slotNames.includes(s)).length;
+    const isUpdated = this.slots?.length !== slotNames.length || this.slots?.filter((s) => !slotNames.includes(s)).length;
     if (isUpdated) this.slots = [...slotNames];
   }
 
@@ -307,23 +303,14 @@ export class ModusNavbar {
   render(): unknown {
     const direction = this.reverse ? 'reverse' : '';
     const shadow = this.showShadow ? 'shadow' : '';
-    const variant = `${
-      this.variant === 'default' ? '' : 'nav-' + this.variant
-    }`;
+    const variant = `${this.variant === 'default' ? '' : 'nav-' + this.variant}`;
     return (
       <nav class={`${direction} ${shadow} ${variant}`}>
         <div class={`left ${direction}`}>
           {this.showMainMenu && (
             <div class="navbar-button main-menu">
-              <span
-                class="navbar-button-icon"
-                onKeyDown={(event) => this.mainMenuKeydownHandler(event)}
-                tabIndex={0}>
-                <IconMenu
-                  size="24"
-                  pressed={this.mainMenuVisible}
-                  onClick={(event) => this.mainMenuClickHandler(event)}
-                />
+              <span class="navbar-button-icon" onKeyDown={(event) => this.mainMenuKeydownHandler(event)} tabIndex={0}>
+                <IconMenu size="24" pressed={this.mainMenuVisible} onClick={(event) => this.mainMenuClickHandler(event)} />
               </span>
               {this.mainMenuVisible && (
                 <modus-navbar-main-menu>
@@ -376,9 +363,7 @@ export class ModusNavbar {
             <div class="navbar-button" data-test-id="notifications-menu">
               <span
                 class="navbar-button-icon"
-                onKeyDown={(event) =>
-                  this.notificationsMenuKeydownHandler(event)
-                }
+                onKeyDown={(event) => this.notificationsMenuKeydownHandler(event)}
                 tabIndex={0}>
                 <IconNotifications
                   size="24"
@@ -397,24 +382,14 @@ export class ModusNavbar {
           {this.showHelp && (
             <div class="navbar-button" data-test-id="help-menu">
               <span class="navbar-button-icon">
-                <IconHelp
-                  size="24"
-                  onClick={(event) => this.helpMenuClickHandler(event)}
-                />
+                <IconHelp size="24" onClick={(event) => this.helpMenuClickHandler(event)} />
               </span>
             </div>
           )}
           {this.showAppsMenu && (
             <div class="navbar-button" data-test-id="apps-menu">
-              <span
-                class="navbar-button-icon"
-                onKeyDown={(event) => this.appsMenuKeydownHandler(event)}
-                tabIndex={0}>
-                <IconApps
-                  size="24"
-                  pressed={this.appsMenuVisible}
-                  onClick={(event) => this.appsMenuClickHandler(event)}
-                />
+              <span class="navbar-button-icon" onKeyDown={(event) => this.appsMenuKeydownHandler(event)} tabIndex={0}>
+                <IconApps size="24" pressed={this.appsMenuVisible} onClick={(event) => this.appsMenuClickHandler(event)} />
               </span>
               {this.appsMenuVisible && (
                 <modus-navbar-apps-menu
@@ -435,9 +410,7 @@ export class ModusNavbar {
                 onClick={(event) => this.profileMenuClickHandler(event)}
                 onKeyDown={(event) => this.profileMenuKeydownHandler(event)}
                 tabIndex={0}
-                ref={(el) =>
-                  (this.profileAvatarElement = el as HTMLImageElement)
-                }
+                ref={(el) => (this.profileAvatarElement = el as HTMLImageElement)}
               />
             ) : (
               <span

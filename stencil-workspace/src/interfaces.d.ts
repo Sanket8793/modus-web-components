@@ -8,3 +8,5 @@ export { ModusSideNavigationItemInfo } from './components/modus-side-navigation/
 export {ModusDateInputEventDetails, ModusDateInputType} from './components/modus-date-input/utils/modus-date-input.models';
 export {ModusTimePickerEventDetails} from './components/modus-time-picker/modus-time-picker.models';
 export { ModusNavbarItem } from './components/modus-navbar/item-menu/modus-navbar-item-menu';
+export { ModusDateInputEventDetails, ModusDateInputType } from './components/modus-date-input/utils/modus-date-input.models';
+export { ModusTimePickerEventDetails } from './components/modus-time-picker/modus-time-picker.models';
