@@ -12,13 +12,25 @@ import { ModusDateInputEventDetails, ModusDateInputType } from "./components/mod
 import { ModusNavbarApp } from "./components/modus-navbar/apps-menu/modus-navbar-apps-menu";
 import { ModusNavbarItem } from "./components/modus-navbar/item-menu/modus-navbar-item-menu";
 import { ModusNavbarProfileMenuLink } from "./components/modus-navbar/profile-menu/modus-navbar-profile-menu";
+import { ModusNavbarProfileMenuLink, ModusNavbarTooltip, ModusProfileMenuOptions } from "./components/modus-navbar/modus-navbar.models";
 import { ModusNavbarApp as ModusNavbarApp1 } from "./components/modus-navbar/apps-menu/modus-navbar-apps-menu";
-import { ModusNavbarProfileMenuLink as ModusNavbarProfileMenuLink1 } from "./components/modus-navbar/profile-menu/modus-navbar-profile-menu";
 import { RadioButton } from "./components/modus-radio-group/modus-radio-button";
 import { ModusSideNavigationItemInfo } from "./components/modus-side-navigation/modus-side-navigation.models";
 import { Tab } from "./components/modus-tabs/modus-tabs";
 import { ModusTimePickerEventDetails } from "./components/modus-time-picker/modus-time-picker.models";
 import { TreeViewItemOptions } from "./components/modus-content-tree/modus-content-tree.types";
+export { ModusAutocompleteOption } from "./components/modus-autocomplete/modus-autocomplete";
+export { Crumb } from "./components/modus-breadcrumb/modus-breadcrumb";
+export { ModusDataTableCellLink, ModusDataTableDisplayOptions, ModusDataTableRowAction, ModusDataTableRowActionClickEvent, ModusDataTableSortEvent, ModusTableSelectionOptions, ModusTableSortOptions, TCell, TColumn, TRow } from "./components/modus-data-table/modus-data-table.models";
+export { ModusDateInputEventDetails, ModusDateInputType } from "./components/modus-date-input/utils/modus-date-input.models";
+export { ModusNavbarApp } from "./components/modus-navbar/apps-menu/modus-navbar-apps-menu";
+export { ModusNavbarProfileMenuLink, ModusNavbarTooltip, ModusProfileMenuOptions } from "./components/modus-navbar/modus-navbar.models";
+export { ModusNavbarApp as ModusNavbarApp1 } from "./components/modus-navbar/apps-menu/modus-navbar-apps-menu";
+export { RadioButton } from "./components/modus-radio-group/modus-radio-button";
+export { ModusSideNavigationItemInfo } from "./components/modus-side-navigation/modus-side-navigation.models";
+export { Tab } from "./components/modus-tabs/modus-tabs";
+export { ModusTimePickerEventDetails } from "./components/modus-time-picker/modus-time-picker.models";
+export { TreeViewItemOptions } from "./components/modus-content-tree/modus-content-tree.types";
 export namespace Components {
     interface ModusAccordion {
         /**
@@ -397,10 +409,10 @@ export namespace Components {
           * (optional) Determines custom dropdown placement offset.
          */
         "customPlacement": {
-    top?: number,
-    right?: number,
-    bottom?: number,
-    left?: number
+    top?: number;
+    right?: number;
+    bottom?: number;
+    left?: number;
   };
         /**
           * (optional) Disables the dropdown.
@@ -560,21 +572,15 @@ export namespace Components {
         /**
           * (required) Profile menu options.
          */
-        "profileMenuOptions": {
-    avatarUrl?: string;
-    email?: string;
-    initials?: string;
-    links?: ModusNavbarProfileMenuLink[];
-    username: string;
-  };
+        "profileMenuOptions": ModusProfileMenuOptions;
         /**
           * (optional) Whether to display the navbar items in reverse order.
          */
         "reverse": boolean;
         /**
-          * (optional) Search tooltip label.
+          * (optional) Search tooltip.
          */
-        "searchLabel": string;
+        "searchTooltip": ModusNavbarTooltip;
         /**
           * (optional) Whether to show the apps menu.
          */
@@ -609,13 +615,14 @@ export namespace Components {
         "variant": 'default' | 'blue';
     }
     interface ModusNavbarAppsMenu {
-        "apps": ModusNavbarApp[];
+        "apps": ModusNavbarApp1[];
         "reverse": boolean;
     }
     interface ModusNavbarItemMenu {
         "reverse": boolean;
     }
     interface ModusNavbarMainMenu {
+        "navbarId": string;
     }
     interface ModusNavbarNotificationsMenu {
         "reverse": boolean;
@@ -953,13 +960,7 @@ export namespace Components {
         /**
           * (optional) The input's inputmode.
          */
-        "inputmode": | 'decimal'
-    | 'email'
-    | 'numeric'
-    | 'search'
-    | 'tel'
-    | 'text'
-    | 'url';
+        "inputmode": 'decimal' | 'email' | 'numeric' | 'search' | 'tel' | 'text' | 'url';
         /**
           * (optional) The input's label.
          */
@@ -1095,19 +1096,17 @@ export namespace Components {
         /**
           * (optional) The toasts' type.
          */
-        "type": | 'danger'
-    | 'dark'
-    | 'default'
-    | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'warning';
+        "type": 'danger' | 'dark' | 'default' | 'primary' | 'secondary' | 'success' | 'warning';
     }
     interface ModusTooltip {
         /**
           * (optional) The tooltip's aria-label.
          */
         "ariaLabel": string | null;
+        /**
+          * Hide the tooltip
+         */
+        "disabled": boolean;
         /**
           * (optional) The tooltip's position relative to its content.
          */
@@ -2048,10 +2047,10 @@ declare namespace LocalJSX {
           * (optional) Determines custom dropdown placement offset.
          */
         "customPlacement"?: {
-    top?: number,
-    right?: number,
-    bottom?: number,
-    left?: number
+    top?: number;
+    right?: number;
+    bottom?: number;
+    left?: number;
   };
         /**
           * (optional) Disables the dropdown.
@@ -2260,21 +2259,15 @@ declare namespace LocalJSX {
         /**
           * (required) Profile menu options.
          */
-        "profileMenuOptions"?: {
-    avatarUrl?: string;
-    email?: string;
-    initials?: string;
-    links?: ModusNavbarProfileMenuLink[];
-    username: string;
-  };
+        "profileMenuOptions"?: ModusProfileMenuOptions;
         /**
           * (optional) Whether to display the navbar items in reverse order.
          */
         "reverse"?: boolean;
         /**
-          * (optional) Search tooltip label.
+          * (optional) Search tooltip.
          */
-        "searchLabel"?: string;
+        "searchTooltip"?: ModusNavbarTooltip;
         /**
           * (optional) Whether to show the apps menu.
          */
@@ -2309,14 +2302,15 @@ declare namespace LocalJSX {
         "variant"?: 'default' | 'blue';
     }
     interface ModusNavbarAppsMenu {
-        "apps"?: ModusNavbarApp[];
-        "onAppOpen"?: (event: ModusNavbarAppsMenuCustomEvent<ModusNavbarApp>) => void;
+        "apps"?: ModusNavbarApp1[];
+        "onAppOpen"?: (event: ModusNavbarAppsMenuCustomEvent<ModusNavbarApp1>) => void;
         "reverse"?: boolean;
     }
     interface ModusNavbarItemMenu {
         "reverse"?: boolean;
     }
     interface ModusNavbarMainMenu {
+        "navbarId"?: string;
     }
     interface ModusNavbarNotificationsMenu {
         "reverse"?: boolean;
@@ -2697,13 +2691,7 @@ declare namespace LocalJSX {
         /**
           * (optional) The input's inputmode.
          */
-        "inputmode"?: | 'decimal'
-    | 'email'
-    | 'numeric'
-    | 'search'
-    | 'tel'
-    | 'text'
-    | 'url';
+        "inputmode"?: 'decimal' | 'email' | 'numeric' | 'search' | 'tel' | 'text' | 'url';
         /**
           * (optional) The input's label.
          */
@@ -2851,19 +2839,17 @@ declare namespace LocalJSX {
         /**
           * (optional) The toasts' type.
          */
-        "type"?: | 'danger'
-    | 'dark'
-    | 'default'
-    | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'warning';
+        "type"?: 'danger' | 'dark' | 'default' | 'primary' | 'secondary' | 'success' | 'warning';
     }
     interface ModusTooltip {
         /**
           * (optional) The tooltip's aria-label.
          */
         "ariaLabel"?: string | null;
+        /**
+          * Hide the tooltip
+         */
+        "disabled"?: boolean;
         /**
           * (optional) The tooltip's position relative to its content.
          */
