@@ -18,6 +18,7 @@ import { ModusNavbarApp } from './apps-menu/modus-navbar-apps-menu';
 import { IconHelp } from '../icons/icon-help';
 import { ModusNavbarTooltip, ModusProfileMenuOptions } from './modus-navbar.models';
 import { createGuid } from '../../utils/utils';
+import { ModusNavbarButton } from './button-list/modus-navbar-button-list';
 
 /**
  * @slot main - Renders custom main menu content
@@ -34,6 +35,9 @@ export class ModusNavbar {
 
   /** (optional) The apps to render in the apps menu. */
   @Prop() apps: ModusNavbarApp[];
+
+  /** (optional) The buttons to render in the Navbar. */
+  @Prop() buttons: ModusNavbarButton[];
 
   /** (required) Product logo options. */
   @Prop() productLogoOptions: { height?: string; url: string };
@@ -83,9 +87,6 @@ export class ModusNavbar {
   /** An event that fires when the help link opens. */
   @Event() helpOpen: EventEmitter<void>;
 
-  /** An event that fires when the item menu opens. */
-  @Event() itemMenuOpen: EventEmitter<string>;
-
   /** An event that fires on main menu click. */
   @Event() mainMenuClick: EventEmitter<KeyboardEvent | MouseEvent>;
 
@@ -104,13 +105,15 @@ export class ModusNavbar {
   /** An event that fires on profile menu sign out click. */
   @Event() profileMenuSignOutClick: EventEmitter<MouseEvent>;
 
+  /** An event that fires on profile menu link click. */
+  @Event() itemMenuButtonClick: EventEmitter<string>;
+
   @Method()
   async hideMainMenu() {
     this.mainMenuVisible = false;
   }
 
   @State() appsMenuVisible: boolean;
-  @State() itemMenuVisible: boolean;
   @State() mainMenuVisible: boolean;
   @State() notificationsMenuVisible: boolean;
   @State() profileMenuVisible: boolean;
@@ -129,6 +132,12 @@ export class ModusNavbar {
       return;
     }
     this.hideMenus();
+  }
+
+  @Listen('buttonClick')
+  buttonClickHandler(buttonClickEvent: CustomEvent<string>): void {
+    buttonClickEvent.stopPropagation();
+    this.itemMenuButtonClick.emit(buttonClickEvent.detail);
   }
 
   @Listen('linkClick')
@@ -309,6 +318,30 @@ export class ModusNavbar {
                 </span>
               </div>
             )}
+            {/* {(this.buttons?.map((i) =>
+            (
+              <div class="navbar-button">
+                <span class="navbar-button-icon"
+                  onKeyDown={(event) => this.itemMenuKeydownHandler(i, event)}
+                  tabIndex={0}>
+                  <modus-tooltip text={i.tooltip} position="bottom">
+                    <IconMap
+                      icon={i.icon}
+                      size="24"
+                      onClick={(event) => this.itemMenuClickHandler(i, event)}
+                      pressed={i.menu === 'pop-out'}
+                    />
+                  </modus-tooltip>
+                </span>
+                {i.menu === 'pop-out' && (
+                  <modus-navbar-button-menu reverse={this.reverse}>
+                    <slot name={i.id}></slot>
+                  </modus-navbar-button-menu>
+                )}
+              </div>
+            )))} */}
+            <modus-navbar-button-list class="navbar-button-list" buttons={this.buttons}>
+            </modus-navbar-button-list>
             {this.showNotifications && (
               <div class="navbar-button" data-test-id="notifications-menu">
                 <span

@@ -10,27 +10,15 @@ import { Crumb } from "./components/modus-breadcrumb/modus-breadcrumb";
 import { ModusDataTableCellLink, ModusDataTableDisplayOptions, ModusDataTableRowAction, ModusDataTableRowActionClickEvent, ModusDataTableSortEvent, ModusTableSelectionOptions, ModusTableSortOptions, TCell, TColumn, TRow } from "./components/modus-data-table/modus-data-table.models";
 import { ModusDateInputEventDetails, ModusDateInputType } from "./components/modus-date-input/utils/modus-date-input.models";
 import { ModusNavbarApp } from "./components/modus-navbar/apps-menu/modus-navbar-apps-menu";
-import { ModusNavbarItem } from "./components/modus-navbar/item-menu/modus-navbar-item-menu";
-import { ModusNavbarProfileMenuLink } from "./components/modus-navbar/profile-menu/modus-navbar-profile-menu";
+import { ModusNavbarButton } from "./components/modus-navbar/button-list/modus-navbar-button-list";
 import { ModusNavbarProfileMenuLink, ModusNavbarTooltip, ModusProfileMenuOptions } from "./components/modus-navbar/modus-navbar.models";
 import { ModusNavbarApp as ModusNavbarApp1 } from "./components/modus-navbar/apps-menu/modus-navbar-apps-menu";
+import { ModusNavbarButton as ModusNavbarButton1 } from "./components/modus-navbar/button-list/modus-navbar-button-list";
 import { RadioButton } from "./components/modus-radio-group/modus-radio-button";
 import { ModusSideNavigationItemInfo } from "./components/modus-side-navigation/modus-side-navigation.models";
 import { Tab } from "./components/modus-tabs/modus-tabs";
 import { ModusTimePickerEventDetails } from "./components/modus-time-picker/modus-time-picker.models";
 import { TreeViewItemOptions } from "./components/modus-content-tree/modus-content-tree.types";
-export { ModusAutocompleteOption } from "./components/modus-autocomplete/modus-autocomplete";
-export { Crumb } from "./components/modus-breadcrumb/modus-breadcrumb";
-export { ModusDataTableCellLink, ModusDataTableDisplayOptions, ModusDataTableRowAction, ModusDataTableRowActionClickEvent, ModusDataTableSortEvent, ModusTableSelectionOptions, ModusTableSortOptions, TCell, TColumn, TRow } from "./components/modus-data-table/modus-data-table.models";
-export { ModusDateInputEventDetails, ModusDateInputType } from "./components/modus-date-input/utils/modus-date-input.models";
-export { ModusNavbarApp } from "./components/modus-navbar/apps-menu/modus-navbar-apps-menu";
-export { ModusNavbarProfileMenuLink, ModusNavbarTooltip, ModusProfileMenuOptions } from "./components/modus-navbar/modus-navbar.models";
-export { ModusNavbarApp as ModusNavbarApp1 } from "./components/modus-navbar/apps-menu/modus-navbar-apps-menu";
-export { RadioButton } from "./components/modus-radio-group/modus-radio-button";
-export { ModusSideNavigationItemInfo } from "./components/modus-side-navigation/modus-side-navigation.models";
-export { Tab } from "./components/modus-tabs/modus-tabs";
-export { ModusTimePickerEventDetails } from "./components/modus-time-picker/modus-time-picker.models";
-export { TreeViewItemOptions } from "./components/modus-content-tree/modus-content-tree.types";
 export namespace Components {
     interface ModusAccordion {
         /**
@@ -557,14 +545,14 @@ export namespace Components {
          */
         "apps": ModusNavbarApp[];
         /**
+          * (optional) The buttons to render in the Navbar.
+         */
+        "buttons": ModusNavbarButton[];
+        /**
           * (optional) Help URL.
          */
         "helpUrl": string;
         "hideMainMenu": () => Promise<void>;
-        /**
-          * (optional) The items to render in the Navbar.
-         */
-        "items": ModusNavbarItem[];
         /**
           * (required) Product logo options.
          */
@@ -615,10 +603,35 @@ export namespace Components {
         "variant": 'default' | 'blue';
     }
     interface ModusNavbarAppsMenu {
-        "apps": ModusNavbarApp1[];
+        "apps": ModusNavbarApp[];
         "reverse": boolean;
     }
-    interface ModusNavbarItemMenu {
+    interface ModusNavbarButton {
+        /**
+          * The id for the button in the Navbar.
+         */
+        "buttonId": string;
+        /**
+          * The icon for the button in the Navbar.
+         */
+        "icon": string;
+        /**
+          * The menu for the button in the Navbar.
+         */
+        "menu": string;
+        "reverse": boolean;
+        /**
+          * The tooltip for the button in the Navbar.
+         */
+        "tooltip": string;
+    }
+    interface ModusNavbarButtonList {
+        /**
+          * (optional) The buttons to render in the Navbar.
+         */
+        "buttons": ModusNavbarButton[];
+    }
+    interface ModusNavbarButtonMenu {
         "reverse": boolean;
     }
     interface ModusNavbarMainMenu {
@@ -1251,6 +1264,10 @@ export interface ModusNavbarAppsMenuCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLModusNavbarAppsMenuElement;
 }
+export interface ModusNavbarButtonListCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLModusNavbarButtonListElement;
+}
 export interface ModusNavbarProfileMenuCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLModusNavbarProfileMenuElement;
@@ -1434,11 +1451,23 @@ declare global {
         prototype: HTMLModusNavbarAppsMenuElement;
         new (): HTMLModusNavbarAppsMenuElement;
     };
-    interface HTMLModusNavbarItemMenuElement extends Components.ModusNavbarItemMenu, HTMLStencilElement {
+    interface HTMLModusNavbarButtonElement extends Components.ModusNavbarButton, HTMLStencilElement {
     }
-    var HTMLModusNavbarItemMenuElement: {
-        prototype: HTMLModusNavbarItemMenuElement;
-        new (): HTMLModusNavbarItemMenuElement;
+    var HTMLModusNavbarButtonElement: {
+        prototype: HTMLModusNavbarButtonElement;
+        new (): HTMLModusNavbarButtonElement;
+    };
+    interface HTMLModusNavbarButtonListElement extends Components.ModusNavbarButtonList, HTMLStencilElement {
+    }
+    var HTMLModusNavbarButtonListElement: {
+        prototype: HTMLModusNavbarButtonListElement;
+        new (): HTMLModusNavbarButtonListElement;
+    };
+    interface HTMLModusNavbarButtonMenuElement extends Components.ModusNavbarButtonMenu, HTMLStencilElement {
+    }
+    var HTMLModusNavbarButtonMenuElement: {
+        prototype: HTMLModusNavbarButtonMenuElement;
+        new (): HTMLModusNavbarButtonMenuElement;
     };
     interface HTMLModusNavbarMainMenuElement extends Components.ModusNavbarMainMenu, HTMLStencilElement {
     }
@@ -1582,7 +1611,9 @@ declare global {
         "modus-modal": HTMLModusModalElement;
         "modus-navbar": HTMLModusNavbarElement;
         "modus-navbar-apps-menu": HTMLModusNavbarAppsMenuElement;
-        "modus-navbar-item-menu": HTMLModusNavbarItemMenuElement;
+        "modus-navbar-button": HTMLModusNavbarButtonElement;
+        "modus-navbar-button-list": HTMLModusNavbarButtonListElement;
+        "modus-navbar-button-menu": HTMLModusNavbarButtonMenuElement;
         "modus-navbar-main-menu": HTMLModusNavbarMainMenuElement;
         "modus-navbar-notifications-menu": HTMLModusNavbarNotificationsMenuElement;
         "modus-navbar-profile-menu": HTMLModusNavbarProfileMenuElement;
@@ -2205,13 +2236,13 @@ declare namespace LocalJSX {
          */
         "apps"?: ModusNavbarApp[];
         /**
+          * (optional) The buttons to render in the Navbar.
+         */
+        "buttons"?: ModusNavbarButton[];
+        /**
           * (optional) Help URL.
          */
         "helpUrl"?: string;
-        /**
-          * (optional) The items to render in the Navbar.
-         */
-        "items"?: ModusNavbarItem[];
         /**
           * An event that fires when an apps menu app opens.
          */
@@ -2225,9 +2256,9 @@ declare namespace LocalJSX {
          */
         "onHelpOpen"?: (event: ModusNavbarCustomEvent<void>) => void;
         /**
-          * An event that fires when the item menu opens.
+          * An event that fires on profile menu link click.
          */
-        "onItemMenuOpen"?: (event: ModusNavbarCustomEvent<string>) => void;
+        "onItemMenuButtonClick"?: (event: ModusNavbarCustomEvent<string>) => void;
         /**
           * An event that fires on main menu click.
          */
@@ -2302,11 +2333,37 @@ declare namespace LocalJSX {
         "variant"?: 'default' | 'blue';
     }
     interface ModusNavbarAppsMenu {
-        "apps"?: ModusNavbarApp1[];
-        "onAppOpen"?: (event: ModusNavbarAppsMenuCustomEvent<ModusNavbarApp1>) => void;
+        "apps"?: ModusNavbarApp[];
+        "onAppOpen"?: (event: ModusNavbarAppsMenuCustomEvent<ModusNavbarApp>) => void;
         "reverse"?: boolean;
     }
-    interface ModusNavbarItemMenu {
+    interface ModusNavbarButton {
+        /**
+          * The id for the button in the Navbar.
+         */
+        "buttonId"?: string;
+        /**
+          * The icon for the button in the Navbar.
+         */
+        "icon"?: string;
+        /**
+          * The menu for the button in the Navbar.
+         */
+        "menu"?: string;
+        "reverse"?: boolean;
+        /**
+          * The tooltip for the button in the Navbar.
+         */
+        "tooltip"?: string;
+    }
+    interface ModusNavbarButtonList {
+        /**
+          * (optional) The buttons to render in the Navbar.
+         */
+        "buttons"?: ModusNavbarButton[];
+        "onButtonClick"?: (event: ModusNavbarButtonListCustomEvent<string>) => void;
+    }
+    interface ModusNavbarButtonMenu {
         "reverse"?: boolean;
     }
     interface ModusNavbarMainMenu {
@@ -2958,7 +3015,9 @@ declare namespace LocalJSX {
         "modus-modal": ModusModal;
         "modus-navbar": ModusNavbar;
         "modus-navbar-apps-menu": ModusNavbarAppsMenu;
-        "modus-navbar-item-menu": ModusNavbarItemMenu;
+        "modus-navbar-button": ModusNavbarButton;
+        "modus-navbar-button-list": ModusNavbarButtonList;
+        "modus-navbar-button-menu": ModusNavbarButtonMenu;
         "modus-navbar-main-menu": ModusNavbarMainMenu;
         "modus-navbar-notifications-menu": ModusNavbarNotificationsMenu;
         "modus-navbar-profile-menu": ModusNavbarProfileMenu;
@@ -3006,7 +3065,9 @@ declare module "@stencil/core" {
             "modus-modal": LocalJSX.ModusModal & JSXBase.HTMLAttributes<HTMLModusModalElement>;
             "modus-navbar": LocalJSX.ModusNavbar & JSXBase.HTMLAttributes<HTMLModusNavbarElement>;
             "modus-navbar-apps-menu": LocalJSX.ModusNavbarAppsMenu & JSXBase.HTMLAttributes<HTMLModusNavbarAppsMenuElement>;
-            "modus-navbar-item-menu": LocalJSX.ModusNavbarItemMenu & JSXBase.HTMLAttributes<HTMLModusNavbarItemMenuElement>;
+            "modus-navbar-button": LocalJSX.ModusNavbarButton & JSXBase.HTMLAttributes<HTMLModusNavbarButtonElement>;
+            "modus-navbar-button-list": LocalJSX.ModusNavbarButtonList & JSXBase.HTMLAttributes<HTMLModusNavbarButtonListElement>;
+            "modus-navbar-button-menu": LocalJSX.ModusNavbarButtonMenu & JSXBase.HTMLAttributes<HTMLModusNavbarButtonMenuElement>;
             "modus-navbar-main-menu": LocalJSX.ModusNavbarMainMenu & JSXBase.HTMLAttributes<HTMLModusNavbarMainMenuElement>;
             "modus-navbar-notifications-menu": LocalJSX.ModusNavbarNotificationsMenu & JSXBase.HTMLAttributes<HTMLModusNavbarNotificationsMenuElement>;
             "modus-navbar-profile-menu": LocalJSX.ModusNavbarProfileMenu & JSXBase.HTMLAttributes<HTMLModusNavbarProfileMenuElement>;

@@ -63,6 +63,10 @@ nav {
     }
   }
 
+  .navbar-button-list {
+    display: flex;
+  }
+
   .left {
     align-items: center;
     display: inline-flex;
@@ -185,6 +189,7 @@ nav {
 
     .profile-menu {
       modus-tooltip {
+
         img.avatar,
         .initials {
           background-color: $modus-navbar-blue-icon-color;

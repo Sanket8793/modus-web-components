@@ -1,4 +1,4 @@
-# modus-navbar-item-menu
+# modus-navbar-button-menu
 
 
 
@@ -16,13 +16,13 @@
 
 ### Used by
 
- - [modus-navbar](..)
+ - [modus-navbar-button](../button)
 
 ### Graph
 ```mermaid
 graph TD;
-  modus-navbar --> modus-navbar-item-menu
-  style modus-navbar-item-menu fill:#f9f,stroke:#333,stroke-width:4px
+  modus-navbar-button --> modus-navbar-button-menu
+  style modus-navbar-button-menu fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

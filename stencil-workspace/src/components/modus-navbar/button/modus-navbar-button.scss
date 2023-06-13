@@ -1,0 +1,30 @@
+@import './../modus-navbar.vars';
+
+.icon-search,
+.icon-notifications,
+.icon-help,
+.icon-apps,
+.icon-menu,
+.icon-add {
+  path {
+    fill: $modus-navbar-blue-icon-color;
+  }
+
+  &:hover:not(.pressed) {
+    background-color: $modus-navbar-blue-icon-hover-bg;
+    outline: $rem-1px solid $modus-navbar-blue-icon-hover-border-color;
+
+    path {
+      fill: $modus-navbar-blue-icon-hover-color;
+    }
+  }
+
+  &:active,
+  &.pressed {
+    background-color: $modus-navbar-blue-icon-active-bg;
+
+    path {
+      fill: $modus-navbar-blue-icon-active-color;
+    }
+  }
+}

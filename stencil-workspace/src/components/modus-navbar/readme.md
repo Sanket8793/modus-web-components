@@ -32,7 +32,6 @@
 | `appsMenuAppOpen`         | An event that fires when an apps menu app opens.       | `CustomEvent<ModusNavbarApp>`              |
 | `appsMenuOpen`            | An event that fires when the apps menu opens.          | `CustomEvent<void>`                        |
 | `helpOpen`                | An event that fires when the help link opens.          | `CustomEvent<void>`                        |
-| `itemMenuOpen`            | An event that fires when the item menu opens.          | `CustomEvent<string>`                      |
 | `mainMenuClick`           | An event that fires on main menu click.                | `CustomEvent<KeyboardEvent \| MouseEvent>` |
 | `notificationsMenuOpen`   | An event that fires when the notifications menu opens. | `CustomEvent<void>`                        |
 | `productLogoClick`        | An event that fires on product logo click.             | `CustomEvent<MouseEvent>`                  |
@@ -68,7 +67,7 @@ Type: `Promise<void>`
 
 - [modus-navbar-main-menu](main-menu)
 - [modus-tooltip](../modus-tooltip)
-- [modus-navbar-item-menu](item-menu)
+- [modus-navbar-button-list](button-list)
 - [modus-navbar-notifications-menu](notifications-menu)
 - [modus-navbar-apps-menu](apps-menu)
 - [modus-navbar-profile-menu](profile-menu)
@@ -78,10 +77,13 @@ Type: `Promise<void>`
 graph TD;
   modus-navbar --> modus-navbar-main-menu
   modus-navbar --> modus-tooltip
-  modus-navbar --> modus-navbar-item-menu
+  modus-navbar --> modus-navbar-button-list
   modus-navbar --> modus-navbar-notifications-menu
   modus-navbar --> modus-navbar-apps-menu
   modus-navbar --> modus-navbar-profile-menu
+  modus-navbar-button-list --> modus-navbar-button
+  modus-navbar-button --> modus-tooltip
+  modus-navbar-button --> modus-navbar-button-menu
   style modus-navbar fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
